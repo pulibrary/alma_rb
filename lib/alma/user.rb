@@ -29,6 +29,7 @@ module Alma
       response
     end
 
+
     def renew_multiple_loans(loan_ids)
       loan_ids.map { |id| renew_loan(id) }
     end
