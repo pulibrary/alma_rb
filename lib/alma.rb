@@ -1,6 +1,8 @@
 require 'alma/version'
 require 'alma/config'
 require 'alma/api'
+require 'alma/user/queryable'
+require 'alma/user/behavior'
 require 'alma/error'
 require 'alma/alma_record'
 require 'alma/user'

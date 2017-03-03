@@ -25,7 +25,7 @@ module Alma
 
       def get_bibs(ids, args={})
         args[:mms_id] = ids_from_array(ids)
-        params = query_merge(args)
+        params = merge_default_query_params(args)
         response = resources.almaws_v1_bibs.get(params)
 
         Alma::BibSet.new(response)

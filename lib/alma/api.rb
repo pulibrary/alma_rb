@@ -8,7 +8,7 @@ module Alma
       { :query => { :apikey => Alma.configuration.apikey } }
     end
 
-    def query_merge(hash)
+    def merge_default_query_params(hash)
       {:query => default_params[:query].merge(hash)}
     end
 
