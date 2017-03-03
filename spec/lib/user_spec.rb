@@ -18,7 +18,7 @@ describe Alma::User do
     let(:user){described_class.new response_hash}
 
     it 'defines and id attribute' do
-      expect(user.id).to eql 'testymc'
+      expect(user.alma_id).to eql 'testymc'
     end
 
     it 'responds to response hash keys as atributes' do

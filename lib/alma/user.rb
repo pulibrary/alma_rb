@@ -3,10 +3,10 @@ module Alma
 
     include Alma::UserBehavior
 
-    attr_accessor :id
+    attr_accessor :alma_id
 
     def post_initialize
-      @id = response['primary_id'].to_s
+      @alma_id = response['primary_id'].to_s
     end
   end
 end
