@@ -3,8 +3,6 @@ module Alma
 
     def UserBehavior.included(klass)
       klass.extend Alma::UserQueryable
-      puts "#{klass} included #{self}"
-
     end
 
 
