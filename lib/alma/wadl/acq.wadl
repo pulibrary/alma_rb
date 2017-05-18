@@ -1,0 +1,551 @@
+<?xml version="1.0"?>
+<application xmlns="http://wadl.dev.java.net/2009/02" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <doc title="Alma"/>
+  <grammars/>
+  <resources base="https://api-eu.hosted.exlibrisgroup.com">
+    <resource path="/almaws/v1/acq">
+      <resource path="funds">
+        <method name="GET">
+          <doc title="Retrieve funds">This API returns a list of Funds.</doc>
+          <request>
+            <param name="limit" style="query" default="10" type="xs:int">
+              <doc>Limits the number of results. Optional. Valid values are 0-100. Default value: 10.</doc>
+            </param>
+            <param name="offset" style="query" default="0" type="xs:int">
+              <doc>Offset of the results returned. Optional. Default value: 0, which means that the first results will be returned.</doc>
+            </param>
+            <param name="library" style="query" default="" type="xs:string">
+              <doc>The code of the library that owns the PO line for which the relevant funds should be retrieved. Optional. If supplied, then only funds that are available for this library will be retrieved. If not supplied, all the funds that match the other parameters will be retrieved.</doc>
+            </param>
+          </request>
+          <response>
+            <doc title="402119">General error.</doc>
+            <representation mediaType="application/xml">
+              <doc title="Funds">rest_funds.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="Funds">rest_funds.xsd</doc>
+            </representation>
+          </response>
+        </method>
+      </resource>
+      <resource path="invoices/">
+        <method name="GET">
+          <doc title="Get Invoices">This API returns a list of  Invoices.</doc>
+          <request>
+            <param name="q" style="query" default="all" type="xs:string">
+              <doc>Search query. Optional. Searched fields: invoice_number, vendor_code. (see [Brief Search|https://developers.exlibrisgroup.com/blog/How-we-re-building-APIs-at-Ex-Libris#BriefSearch])</doc>
+            </param>
+            <param name="limit" style="query" default="10" type="xs:int">
+              <doc>Limits the number of results. Optional. Valid values are 0-100. Default value: 10.</doc>
+            </param>
+            <param name="offset" style="query" default="0" type="xs:int">
+              <doc>Offset of the results returned. Optional. Default value: 0, which means that the first results will be returned.</doc>
+            </param>
+          </request>
+          <response>
+            <doc title="402119">General error.</doc>
+            <doc title="402400">Invoice X not found.</doc>
+            <doc title="401873">Request failed: X</doc>
+            <representation mediaType="application/xml">
+              <doc title="Invoices">rest_invoices.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="Invoices">rest_invoices.xsd</doc>
+            </representation>
+          </response>
+        </method>
+      </resource>
+      <resource path="invoices/{invoice_id}">
+        <param name="invoice_id" style="template" type="xs:string">
+          <doc>The Invoice id.</doc>
+        </param>
+        <method name="GET">
+          <doc title="Get Invoice">This API returns a specific Invoice.</doc>
+          <request/>
+          <response>
+            <doc title="402119">General error.</doc>
+            <doc title="402400">Invoice X not found.</doc>
+            <doc title="402401">Error while trying to retrieve invoice X.</doc>
+            <doc title="60100">The parameter X must be a number greater than zero.</doc>
+            <representation mediaType="application/xml">
+              <doc title="Invoice">rest_invoice.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="Invoice">rest_invoice.xsd</doc>
+            </representation>
+          </response>
+        </method>
+      </resource>
+      <resource path="licenses/">
+        <method name="GET">
+          <doc title="Get Licenses">This API returns a list of licenses.</doc>
+          <request>
+            <param name="q" style="query" default="all" type="xs:string">
+              <doc>Search query. Optional. Searched fields: name, code, licensor. (see [Brief Search|https://developers.exlibrisgroup.com/blog/How-we-re-building-APIs-at-Ex-Libris#BriefSearch])</doc>
+            </param>
+            <param name="status" style="query" default="ALL" type="xs:string">
+              <doc>License status. Optional. Valid values are ACTIVE, DELETED, DRAFT, EXPIRED, RETIRED, ALL. Default: ALL</doc>
+            </param>
+            <param name="review_status" style="query" default="ALL" type="xs:string">
+              <doc>License review status. Optional. Valid values are ALL, and the listed values in LicenseReviewStatuses code table. Default: ALL</doc>
+            </param>
+            <param name="limit" style="query" default="10" type="xs:int">
+              <doc>Limits the number of results. Optional. Valid values are 0-100. Default value: 10.</doc>
+            </param>
+            <param name="offset" style="query" default="0" type="xs:int">
+              <doc>Offset of the results returned. Optional. Default value: 0, which means that the first results will be returned.</doc>
+            </param>
+          </request>
+          <response>
+            <doc title="402119">General error.</doc>
+            <doc title="40166404">Given field X has invalid value Y, please use one of the valid values listed under the Z code table.</doc>
+            <doc title="401873">Request failed: X</doc>
+            <representation mediaType="application/xml">
+              <doc title="Licenses">rest_licenses.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="Licenses">rest_licenses.xsd</doc>
+            </representation>
+          </response>
+        </method>
+      </resource>
+      <resource path="licenses/{license_code}">
+        <param name="license_code" style="template" type="xs:string">
+          <doc>The license code.</doc>
+        </param>
+        <method name="GET">
+          <doc title="Get License">This API returns a specific license.</doc>
+          <request/>
+          <response>
+            <doc title="402119">General error.</doc>
+            <doc title="403401">Failed to retrieve license with code X.</doc>
+            <doc title="403400">License with code X not found.</doc>
+            <representation mediaType="application/xml">
+              <doc title="License">rest_license.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="License">rest_license.xsd</doc>
+            </representation>
+          </response>
+        </method>
+      </resource>
+      <resource path="po-lines">
+        <method name="GET">
+          <doc title="Retrieve PO-Lines">This API returns a list of PO-Lines.</doc>
+          <request>
+            <param name="q" style="query" default="" type="xs:string">
+              <doc>Search query. Optional. Searching for words from: title, author, mms_id, publisher, publication_year, publication_place, issn_isbn, shelving_location, vendor_code, vendor_name, vendor_account, fund_code, fund_name, number, po_number, invoice_reference &amp; all (for searching in all the above fields). It is also possible to search on fields from the related items (relevant for libraries who have one PO-Line per Item, and the maximum number of records which can be retrieved is limited): enumeration_a/b/c, chronology_i/j/k &amp; item_description. Example (note the tilde between the code and text): q=author~Mark (see [Brief Search|https://developers.exlibrisgroup.com/blog/How-we-re-building-APIs-at-Ex-Libris#BriefSearch])</doc>
+            </param>
+            <param name="status" style="query" default="ALL" type="xs:string">
+              <doc>PO-Line Status. Optional. Valid values are CLOSED, CANCELLED, ACTIVE, ALL, ALL_WITH_CLOSED. Default: ALL (retrieves all PO lines except CLOSED).</doc>
+            </param>
+            <param name="limit" style="query" default="10" type="xs:int">
+              <doc>Limits the number of results. Optional. Valid values are 0-100. Default value: 10.</doc>
+            </param>
+            <param name="offset" style="query" default="0" type="xs:int">
+              <doc>Offset of the results returned. Optional. Default value: 0, which means that the first results will be returned.</doc>
+            </param>
+            <param name="order_by" style="query" default="title" type="xs:string">
+              <doc>Order by parameter. Optional. The default is title. The Order by options are number, title, created_date and po_number. It is also possible to sort by fields from the related items (relevant for libraries who have one PO-Line per Item, and only works when the search query included item related fields): enumeration_a/b/c, chronology_i/j/k &amp; item_description. The secondary sort is on number.</doc>
+            </param>
+            <param name="direction" style="query" default="desc" type="xs:string">
+              <doc>Direction of ordering. Optional. The choices are asc, desc. The default is desc.</doc>
+            </param>
+            <param name="acquisition_method" style="query" default="ALL" type="xs:string">
+              <doc>Filter by acquisition method, e.g. PURCHASE. Optional. The default is to do no filtering.</doc>
+            </param>
+            <param name="expand" style="query" default="" type="xs:string">
+              <doc>The expand parameter allows for increasing the PO-Lines information with data on:
+notes - The PO notes.
+locations - The PO locations with their sub objects.
+To get more than one, use a comma separator. Optional. </doc>
+            </param>
+            <param name="library" style="query" default="" type="xs:string">
+              <doc>The code of the library that owns the PO lines. Optional. If supplied, only the PO Lines for this library will be retrieved. If not supplied, all the PO Lines that match the other parameters will be retrieved.</doc>
+            </param>
+          </request>
+          <response>
+            <doc title="402119">General error.</doc>
+            <doc title="40188600">Search query parameter X is not supported.</doc>
+            <doc title="40188602">Results cannot be sorted by item attribute without providing at least one condition for item search.</doc>
+            <doc title="40188603">Results can be sorted by one or more item attributes OR one Poline attribute.</doc>
+            <doc title="40188604">order_by value X is invalid. Valid sort values are: [list of valid sort values].</doc>
+            <doc title="40188605">The provided search query returns more than X items. Please narrow your search.</doc>
+            <representation mediaType="application/xml">
+              <doc title="PO-Lines">rest_po_lines.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="PO-Lines">rest_po_lines.xsd</doc>
+            </representation>
+          </response>
+        </method>
+        <method name="POST">
+          <doc title="Create PO-Line">This web service creates a new PO-Line. 
+
+The PO line can be for physical, electronic or electronic collection. The PO line will be created along with the relevant inventory according to the 'type' field. It will then be processed in Alma as any PO line. 
+
+The common use case for this web service is for creating a PO line in Alma, representing an order that was purchased at vendor system. 
+The following fields are required by the POST action: owner, type, title or mms_id. If they were not supplied - 400 HTTP error will be returned. There are other fields which are required for the PO line to be processed in Alma: vendor, vendor account, price and fund. If any of these fields is missing, the PO Line will be created in Alma, but will be in the 'In Review' list. 
+
+Note that PO line processing in Alma is asynchronous. This means that the response for POST action might not include status and alerts. As part of the PO line details, the relevant metadata is sent to Alma. Alma will try to match it with existing bibliographic records. If a matching bibliographic record exists- the new PO line will be related to that record. If not, a new bibliographic record will be created including the relevant metadata. 
+
+For more information about configuring match rules see [here|https://developers.exlibrisgroup.com/blog/Create-PO-line-API-how-the-bibliographic-record-is-determined].</doc>
+          <request>
+            <representation mediaType="application/xml">
+              <doc>This method creates a Poline object.</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc>This method creates a Poline object.</doc>
+            </representation>
+          </request>
+          <response>
+            <doc title="402119">General error.</doc>
+            <doc title="401870">PoLine X already exists.</doc>
+            <doc title="401664">Mandatory field is missing: X</doc>
+            <doc title="401872">Given X is illegal.</doc>
+            <representation mediaType="application/xml">
+              <doc title="PO-Line">rest_po_line.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="PO-Line">rest_po_line.xsd</doc>
+            </representation>
+          </response>
+        </method>
+      </resource>
+      <resource path="po-lines/{po_line_id}">
+        <param name="po_line_id" style="template" type="xs:string">
+          <doc>The PO-Line number.</doc>
+        </param>
+        <method name="DELETE">
+          <doc title="Cancel PO-Line">This web service cancels a PO-Line.</doc>
+          <request>
+            <param name="reason" style="query" type="xs:string">
+              <doc>The cancellation reason code. From the 'PO Line Cancellation Reasons' code table.</doc>
+            </param>
+            <param name="comment" style="query" default="" type="xs:string">
+              <doc>Comment regarding cancellation.</doc>
+            </param>
+            <param name="inform_vendor" style="query" default="false" type="xs:boolean">
+              <doc>Inform vendor of cancellation flag. Defaults to false.</doc>
+            </param>
+            <param name="override" style="query" default="false" type="xs:boolean">
+              <doc>Override errors flag. Defaults to false.</doc>
+            </param>
+          </request>
+          <response status="204">
+            <doc title="402119">General error.</doc>
+            <doc title="401884">PO Line already cancelled.</doc>
+            <doc title="401881">Failed to cancel the PO Line. (With error message)</doc>
+            <doc title="401874">Failed to cancel the PO Line.</doc>
+            <doc title="401871">Po-Line X not found.</doc>
+          </response>
+        </method>
+        <method name="GET">
+          <doc title="Get PO-Line">This API returns a specific PO-Line.</doc>
+          <request/>
+          <response>
+            <doc title="402119">General error.</doc>
+            <doc title="401871">Po-Line X not found.</doc>
+            <representation mediaType="application/xml">
+              <doc title="PO-Line">rest_po_line.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="PO-Line">rest_po_line.xsd</doc>
+            </representation>
+          </response>
+        </method>
+        <method name="PUT">
+          <doc title="Update PO-Line">This web service updates a PO-Line. The PO line can be for physical, electronic or electronic collection. </doc>
+          <request>
+            <representation mediaType="application/xml">
+              <doc>This method creates a Poline object.</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc>This method creates a Poline object.</doc>
+            </representation>
+          </request>
+          <response>
+            <doc title="401676">Request body not found.</doc>
+            <doc title="401871">PO Line not found.</doc>
+            <doc title="401876">Failed to update PO Line (with error message).</doc>
+            <representation mediaType="application/xml">
+              <doc title="PO-Line">rest_po_line.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="PO-Line">rest_po_line.xsd</doc>
+            </representation>
+          </response>
+        </method>
+      </resource>
+      <resource path="po-lines/{po_line_id}/items">
+        <param name="po_line_id" style="template" type="xs:string">
+          <doc>The PO-Line number.</doc>
+        </param>
+        <method name="GET">
+          <doc title="Get PO-Line Items">This API returns the items related to a specific PO-Line.</doc>
+          <request/>
+          <response>
+            <doc title="402119">General error.</doc>
+            <doc title="401871">Po-Line X not found.</doc>
+            <representation mediaType="application/xml">
+              <doc title="PO-Line Items">rest_items.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="PO-Line Items">rest_items.xsd</doc>
+            </representation>
+          </response>
+        </method>
+        <method name="POST">
+          <doc title="Receive New Item">This web service adds an item to a PO-Line and receives it.</doc>
+          <request>
+            <param name="receive_date" style="query" default="" type="xs:string">
+              <doc>The receive date. Default value is current time.  Expected Format: YYYY-MM-DDZ</doc>
+            </param>
+            <param name="department" style="query" default="" type="xs:string">
+              <doc>The code of the department where the item is being received. If not supplied, a random department will be chosen from the owning library's acquisition departments.</doc>
+            </param>
+            <param name="department_library" style="query" default="" type="xs:string">
+              <doc>The library code of the department where the item is being received.</doc>
+            </param>
+            <representation mediaType="application/xml">
+              <doc>The item to add.</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc>The item to add.</doc>
+            </representation>
+          </request>
+          <response>
+            <doc title="40166411">Param value is invalid.</doc>
+            <doc title="401875">Failed to find the department.</doc>
+            <doc title="401871">Failed to find the PO Line.</doc>
+            <doc title="401878">Failed to update the item after the receive.</doc>
+            <doc title="401877">Failed to receive PO Line (with error message).</doc>
+            <representation mediaType="application/xml">
+              <doc title="Item">rest_item.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="Item">rest_item.xsd</doc>
+            </representation>
+          </response>
+        </method>
+      </resource>
+      <resource path="po-lines/{po_line_id}/items/{item_id}">
+        <param name="po_line_id" style="template" type="xs:string">
+          <doc>The PO-Line number.</doc>
+        </param>
+        <param name="item_id" style="template" type="xs:string">
+          <doc>The item ID.</doc>
+        </param>
+        <method name="POST">
+          <doc title="Receive an Existing Item">This web service updates an item to be considered received. If no payload is sent, the item information will not be changed besides the receive action. If an item object is sent in the payload, the item information will be updated accordingly.</doc>
+          <request>
+            <param name="op" style="query" type="xs:string">
+              <doc>The operation to perform on the item. Currently, the only option is 'receive'</doc>
+            </param>
+            <param name="receive_date" style="query" default="" type="xs:string">
+              <doc>The receive date. Default value is current time.  Expected Format: YYYY-MM-DDZ</doc>
+            </param>
+            <param name="department" style="query" default="" type="xs:string">
+              <doc>The code of the department where the item is being received. If not supplied, a random department will be chosen from the owning library's acquisition departments.</doc>
+            </param>
+            <param name="department_library" style="query" default="" type="xs:string">
+              <doc>The library code of the department where the item is being received.</doc>
+            </param>
+            <representation mediaType="application/xml">
+              <doc>The item info for updating the item. If no update is required, an empty item object must be sent (e.g. &lt;item /&gt;).</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc>The item info for updating the item. If no update is required, an empty item object must be sent (e.g. &lt;item /&gt;).</doc>
+            </representation>
+          </request>
+          <response>
+            <doc title="40166411">Param value is invalid.</doc>
+            <doc title="401875">Failed to find the department.</doc>
+            <doc title="401871">Failed to find the PO Line.</doc>
+            <doc title="401877">Failed to receive PO Line (with error message).</doc>
+            <representation mediaType="application/xml">
+              <doc title="Item">rest_item.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="Item">rest_item.xsd</doc>
+            </representation>
+          </response>
+        </method>
+      </resource>
+      <resource path="test">
+        <method name="GET">
+          <doc title="GET Acq Test API">This API is used to test if the API key was configured correctly.It returns a short XML (no schema available - the output is subject to changes) with the following structure:&lt;test&gt;GET - OK - institutionCode: 01ABC_INST&lt;/test&gt;</doc>
+          <response>
+            <representation mediaType="application/xml">
+              <param name="result" style="plain" type="xs:string"/>
+            </representation>
+            <representation mediaType="application/json">
+              <param name="result" style="plain" type="xs:string"/>
+            </representation>
+          </response>
+        </method>
+        <method name="POST">
+          <doc title="POST Acq Test API">This API is used to test if the API key was configured correctly, including read/write permissions.It returns a short XML (no schema available - the output is subject to changes) with the following structure:&lt;test&gt;POST - OK&lt;/test&gt;</doc>
+          <response>
+            <representation mediaType="application/xml">
+              <param name="result" style="plain" type="xs:string"/>
+            </representation>
+            <representation mediaType="application/json">
+              <param name="result" style="plain" type="xs:string"/>
+            </representation>
+          </response>
+        </method>
+      </resource>
+      <resource path="vendors">
+        <method name="GET">
+          <doc title="Retrieve vendors">This API returns a list of Vendors.</doc>
+          <request>
+            <param name="status" style="query" default="ALL" type="xs:string">
+              <doc>Vendor Status. Optional. Valid values: active, inactive</doc>
+            </param>
+            <param name="type" style="query" default="ALL" type="xs:string">
+              <doc>Vendor Type. Optional. Valid values: material_supplier, access_provider, licensor, governmental.</doc>
+            </param>
+            <param name="q" style="query" default="" type="xs:string">
+              <doc>Search query. Optional. Searching for words from: interface_name, name, code, library  &amp; all (for searching in all the above fields). Example (note the tilde between the code and text): q=name~Association (see [Brief Search|https://developers.exlibrisgroup.com/blog/How-we-re-building-APIs-at-Ex-Libris#BriefSearch])</doc>
+            </param>
+            <param name="limit" style="query" default="10" type="xs:int">
+              <doc>Limits the number of results. Optional. Valid values are 0-100. Default value: 10.</doc>
+            </param>
+            <param name="offset" style="query" default="0" type="xs:int">
+              <doc>Offset of the results returned. Optional. Default value: 0, which means that the first results will be returned.</doc>
+            </param>
+          </request>
+          <response>
+            <doc title="402119">General error.</doc>
+            <representation mediaType="application/xml">
+              <doc title="Vendors">rest_vendors.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="Vendors">rest_vendors.xsd</doc>
+            </representation>
+          </response>
+        </method>
+        <method name="POST">
+          <doc title="Create Vendor">This API creates a new vendor.</doc>
+          <request>
+            <representation mediaType="application/xml"/>
+            <representation mediaType="application/json"/>
+          </request>
+          <response>
+            <doc title="402119">General error.</doc>
+            <doc title="402880">Vendor X not found.</doc>
+            <representation mediaType="application/xml">
+              <doc title="Vendor">rest_vendor.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="Vendor">rest_vendor.xsd</doc>
+            </representation>
+          </response>
+        </method>
+      </resource>
+      <resource path="vendors/{vendorCode}">
+        <param name="vendorCode" style="template" type="xs:string">
+          <doc>Specific vendor code</doc>
+        </param>
+        <method name="DELETE">
+          <doc title="Delete Vendor">This API deletes the vendor the code refers to.</doc>
+          <request/>
+          <response>
+            <doc title="402119">General error.</doc>
+            <representation mediaType="application/xml">
+              <param name="result" style="plain" type="xs:string"/>
+            </representation>
+            <representation mediaType="application/json">
+              <param name="result" style="plain" type="xs:string"/>
+            </representation>
+          </response>
+        </method>
+        <method name="GET">
+          <doc title="Get Vendor">This API returns a specific vendor information.</doc>
+          <request/>
+          <response>
+            <doc title="402119">General error.</doc>
+            <doc title="401871">Vendor X not found.</doc>
+            <representation mediaType="application/xml">
+              <doc title="Vendor">rest_vendor.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="Vendor">rest_vendor.xsd</doc>
+            </representation>
+          </response>
+        </method>
+        <method name="PUT">
+          <doc title="Update Vendor">This API updates an existing vendor.</doc>
+          <request>
+            <representation mediaType="application/xml"/>
+            <representation mediaType="application/json"/>
+          </request>
+          <response>
+            <doc title="402119">General error.</doc>
+            <doc title="402880">Vendor X not found.</doc>
+            <representation mediaType="application/xml">
+              <doc title="Vendor">rest_vendor.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="Vendor">rest_vendor.xsd</doc>
+            </representation>
+          </response>
+        </method>
+      </resource>
+      <resource path="vendors/{vendorCode}/invoices">
+        <param name="vendorCode" style="template" type="xs:string">
+          <doc>Specific vendor code</doc>
+        </param>
+        <method name="GET">
+          <doc title="Get Vendor Invoices">This API returns information about a specific vendor's invoices.</doc>
+          <request>
+            <param name="limit" style="query" default="10" type="xs:int">
+              <doc>Limits the number of results. Optional. Valid values are 0-100. Default value: 10.</doc>
+            </param>
+            <param name="offset" style="query" default="0" type="xs:int">
+              <doc>Offset of the results returned. Optional. Default value: 0, which means that the first results will be returned.</doc>
+            </param>
+          </request>
+          <response>
+            <doc title="402119">General error.</doc>
+            <doc title="401871">Vendor X not found.</doc>
+            <representation mediaType="application/xml">
+              <doc title="Invoices">rest_invoices.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="Invoices">rest_invoices.xsd</doc>
+            </representation>
+          </response>
+        </method>
+      </resource>
+      <resource path="vendors/{vendorCode}/po-lines">
+        <param name="vendorCode" style="template" type="xs:string">
+          <doc>Specific vendor code</doc>
+        </param>
+        <method name="GET">
+          <doc title="Get Vendor PO Lines">This API returns information about a specific vendor's PO lines.</doc>
+          <request>
+            <param name="limit" style="query" default="10" type="xs:int">
+              <doc>Limits the number of results. Optional. Valid values are 0-100. Default value: 10.</doc>
+            </param>
+            <param name="offset" style="query" default="0" type="xs:int">
+              <doc>Offset of the results returned. Optional. Default value: 0, which means that the first results will be returned.</doc>
+            </param>
+          </request>
+          <response>
+            <doc title="402119">General error.</doc>
+            <doc title="401871">Vendor X not found.</doc>
+            <representation mediaType="application/xml">
+              <doc title="PO-Lines">rest_po_lines.xsd</doc>
+            </representation>
+            <representation mediaType="application/json">
+              <doc title="PO-Lines">rest_po_lines.xsd</doc>
+            </representation>
+          </response>
+        </method>
+      </resource>
+    </resource>
+  </resources>
+</application>

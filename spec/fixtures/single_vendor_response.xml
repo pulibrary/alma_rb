@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vendor>
+  <code>dum_vend_1</code>
+  <name>The Bookhouse, Inc.</name>
+  <status desc="Active">ACTIVE</status>
+  <liable_for_vat>false</liable_for_vat>
+  <language desc="English">en</language>
+  <material_supplier>true</material_supplier>
+  <access_provider>false</access_provider>
+  <licensor>false</licensor>
+  <governmental>false</governmental>
+  <contact_info>
+    <addresses>
+      <address preferred="true">
+        <line1>208 West Chicago St.</line1>
+        <city>Jonesville</city>
+        <state_province>MI</state_province>
+        <postal_code>49250</postal_code>
+        <country desc=""/>
+        <start_date>2011-12-17Z</start_date>
+        <address_types>
+          <address_type desc="Order">order</address_type>
+          <address_type desc="Payment">payment</address_type>
+          <address_type desc="Returns">returns</address_type>
+          <address_type desc="Claim">claim</address_type>
+        </address_types>
+      </address>
+    </addresses>
+    <emails>
+      <email preferred="true">
+        <email_address>nosuchmail@no.such.mail.com</email_address>
+        <email_types>
+          <email_type desc="Claim">claimMail</email_type>
+          <email_type desc="Order">orderMail</email_type>
+          <email_type desc="Payment">paymentMail</email_type>
+        </email_types>
+      </email>
+    </emails>
+    <phones>
+      <phone preferred="true" preferred_sms="true">
+        <phone_number>1-800-248-1146</phone_number>
+        <phone_types>
+          <phone_type desc="Order phone">orderPhone</phone_type>
+          <phone_type desc="Payment phone">paymentPhone</phone_type>
+          <phone_type desc="Returns phone">returnsPhone</phone_type>
+          <phone_type desc="Claim phone">claimPhone</phone_type>
+        </phone_types>
+      </phone>
+    </phones>
+    <web_addresses/>
+  </contact_info>
+  <edi_info/>
+  <vendor_libraries>
+    <library include_sub_units="true">
+      <code desc="Training and Integration">TR_INTEGRATION_INST</code>
+    </library>
+  </vendor_libraries>
+  <vendor_currencies>
+    <currency desc="US Dollar">USD</currency>
+    <currency desc="Euro">EUR</currency>
+    <currency desc="Pound Sterling">GBP</currency>
+    <currency desc="New Israeli Sheqel">ILS</currency>
+    <currency desc="">JPN</currency>
+    <currency desc="Yuan Renminbi">CNY</currency>
+    <currency desc="Australian Dollar">AUD</currency>
+    <currency desc="New Zealand Dollar">NZD</currency>
+    <currency desc="Swedish Krona">SEK</currency>
+    <currency desc="Swiss Franc">CHF</currency>
+    <currency desc="Danish Krone">DKK</currency>
+    <currency desc="Mexican Peso">MXN</currency>
+  </vendor_currencies>
+  <accounts>
+    <account>
+      <code>BKHS</code>
+      <description>The Bookhouse, Inc.</description>
+      <status desc="Active">ACTIVE</status>
+      <discount_percent>0.0</discount_percent>
+      <subscription_interval>90</subscription_interval>
+      <contact_info>
+        <addresses/>
+        <emails/>
+        <phones/>
+      </contact_info>
+      <account_libraries>
+        <library include_sub_units="true">
+          <code desc="Training and Integration">TR_INTEGRATION_INST</code>
+        </library>
+      </account_libraries>
+      <payment_methods>
+        <payment_method desc="Accounting Department">ACCOUNTINGDEPARTMENT</payment_method>
+      </payment_methods>
+    </account>
+  </accounts>
+  <contact_persons/>
+  <interfaces/>
+  <notes/>
+</vendor>

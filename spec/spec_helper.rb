@@ -55,5 +55,12 @@ RSpec.configure do |config|
                   :body => File.open(SPEC_ROOT + '/fixtures/availability_response.xml').read,
                   :headers => { 'content-type' => ['application/xml;charset=UTF-8']})
 
+    stub_request(:get, %r{.*\.exlibrisgroup\.com/almaws/v1/acq/vendors/.*})
+      .to_return(
+        status: 200,
+        body: File.open(SPEC_ROOT + '/fixtures/single_vendor_response.xml').read,
+        headers: { 'content-type' => ['application/xml;charset=UTF-8'] }
+        )
+
   end
 end
