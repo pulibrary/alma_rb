@@ -7,7 +7,7 @@ describe Alma::Acq::Vendor do
 
   describe '#find' do
     let(:vendorCode) { 'dum_vend_1' }
-    let(:vendor) { described_class.send :find, vendorCode: vendorCode }
+    let(:vendor) { described_class.send :find, vendorCode }
 
     it 'returns a Vendor object' do
       expect(vendor).to be_a Alma::Acq::Vendor
