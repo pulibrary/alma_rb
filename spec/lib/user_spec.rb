@@ -87,7 +87,6 @@ describe Alma::User do
 
       it 'returns the expected value' do
         expect(user.preferred_email).to eql 'johns@mylib.org'
-        binding.pry
 
       end
 
