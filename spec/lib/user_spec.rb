@@ -16,10 +16,10 @@ describe Alma::User do
         'desc_field'  => {'desc' => "How is a rspec like writing a desc", 'value' => 'a value' }
 
     }}
-    let(:user){described_class.new response_hash}
+    let(:user){Alma::User.find('johns')}
 
     it 'defines an id attribute' do
-      expect(user.id).to eql 'testymc'
+      expect(user.id).to eql 'johns'
     end
 
     it 'responds to response hash keys as atributes' do
@@ -27,19 +27,19 @@ describe Alma::User do
     end
 
     it 'returns the expected values of attributes' do
-      expect(user.last_name).to eql 'McTesterson'
+      expect(user.last_name).to eql 'Smith'
     end
 
-    it 'responds to attributes with nil value' do
-      expect(user.middle_name).to eql nil
+    it 'responds to attributes with empty value' do
+      expect(user.middle_name).to eql ''
     end
 
     it 'returns a hash for a field that is a hash' do
-      expect(user.other_field).to be_a Hash
+      expect(user.contact_info).to be_a Hash
     end
 
     it 'allows values to be accessed via hash nested keys' do
-      expect(user['desc_field']['desc']).to eql 'How is a rspec like writing a desc'
+      expect(user['preferred_language']['value']).to eql 'en'
     end
 
     describe '#loans' do
@@ -63,10 +63,10 @@ describe Alma::User do
         expect(user.fines).to be_a Alma::FineSet
       end
     end
-    
-    describe '#update' do
+
+    describe '#save!' do
       it 'is responded to' do
-        expect(user).to respond_to :update
+        expect(user).to respond_to :save!
       end
     end
 
@@ -74,12 +74,23 @@ describe Alma::User do
       it 'is responded to' do
         expect(user).to respond_to :email
       end
+
+      it 'returns the expected value' do
+        expect(user.email).to eql ['johns@mylib.org', 'johns@myOTHERlib.org']
+      end
     end
-    
+
     describe '#preferred_email' do
       it 'is responded to' do
         expect(user).to respond_to :preferred_email
       end
+
+      it 'returns the expected value' do
+        expect(user.preferred_email).to eql 'johns@mylib.org'
+        binding.pry
+
+      end
+
     end
 
     describe "#{described_class}.authenticate" do
@@ -97,7 +108,6 @@ describe Alma::User do
           expect(auth_fail).to be false
         end
       end
-
     end
   end
 end
