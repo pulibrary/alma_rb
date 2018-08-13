@@ -20,6 +20,8 @@ require 'alma/bib_item'
 require 'alma/request_options'
 require 'alma/item_request_options'
 require 'alma/request'
+require 'alma/electronic/collection'
+require 'alma/electronic/collection_set'
 
 module Alma
   require 'httparty'

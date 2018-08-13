@@ -83,5 +83,14 @@ RSpec.configure do |config|
     stub_request(:post, /.*\.exlibrisgroup\.com\/almaws\/v1\/bibs\/.*\/holdings\/.*\/items\/.*\/requests/).
         to_return(:status => 200)
 
+    stub_request(:get, /.*\.exlibrisgroup\.com\/almaws\/v1\/electronic\/e-collections.*/).
+        with(query: hash_including({offset: 100})).
+        to_return(:status => 200,
+          :body => File.open(SPEC_ROOT + '/fixtures/collections-pg-2.json'))
+
+    stub_request(:get, /.*\.exlibrisgroup\.com\/almaws\/v1\/electronic\/e-collections.*/).
+        to_return(:status => 200,
+          :body => File.open(SPEC_ROOT + '/fixtures/collections-pg-1.json'))
+
   end
 end

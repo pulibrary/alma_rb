@@ -22,5 +22,11 @@ module Alma
     def users_base_path
       "#{self.region}/almaws/v1/users"
     end
+
+    def electronic_base_path
+      "#{self.region}/almaws/v1/electronic"
+    end
+
+
   end
 end
