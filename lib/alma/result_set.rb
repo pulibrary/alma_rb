@@ -7,18 +7,22 @@ class Alma::ResultSet
   include Enumerable
   include Alma::Error
 
-  attr_reader :response
+  attr_reader :response, raw_response
 
   def_delegators :response, :[], :fetch
   def_delegators :each, :each_with_index, :size
 
-  def initialize(response_body_hash)
-    @response = response_body_hash
+  def initialize(raw_response)
+    @raw_response = raw_response
+    @response = JSON.parse(raw_response.body)
   end
 
-  def each
-    @results ||= @response.fetch(key, [])
+  def records
+    @records ||= @response.fetch(key, [])
       .map { |item| single_record_class.new(item) }
+
+  def each(&block)
+    records.each(&:block)
   end
 
   def total_record_count
