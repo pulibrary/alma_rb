@@ -62,7 +62,7 @@ module Alma
     def fines
       response = HTTParty.get("#{users_base_path}/#{id}/fees", headers: headers)
       if response.code == 200
-        Alma::FineSet.new get_body_from(response)
+        Alma::FineSet.new response
       else
         raise StandardError, get_body_from(response)
       end

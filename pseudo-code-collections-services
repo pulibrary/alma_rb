@@ -1,0 +1,64 @@
+
+
+notes_hash = {}
+
+collections = Alma::Electronic::Collections.all.each do |collection|
+  c_data =  {}
+  c_response = Collection.find(collection.id)
+  c_data.merge("collection_auth_note" => c_response.authentication_note) if c_response.authentication_note?
+  c_data.merge("collection_public_note" => c_response.public_note) if c_response.public_note?
+
+  c_services = Collection.services(collection.id).each do |service|
+    s_response = Collection.service.find(service.id)
+    c_data.merge("service_auth_note" => s_response.authentication_note) if s_response.authentication_note?
+    c_data.merge("service_public_note" => s_response.public_note) if s_response.public_note?
+  end
+
+  notes_hash[collection.id] = c_data unless c_data.empty?
+end
+
+File.open("config/ecollections.yml", "wb") do |f|
+  f.write notes_hash.to_yaml
+end
+
+
+
+
+class Alma::Electronic::Services
+
+end
+
+
+class Alma::Electronic::Collection
+
+  # Return a lazy enumerator that iterates through all
+
+  def self.all
+    total = 0
+    Enumerator.new do |yielder|
+      offset = 0
+
+      loop do
+        results = self.class.where(limit: 100, offset: offset)
+        total ||= results[:total]
+        unless results["electronic_collection"].empty?
+          results.map { |item| yielder << item }
+          offset += 100
+        else
+          raise StopIteration
+        end
+      end
+    end.lazy
+  end
+
+  # get One collection
+  def self.find(id)
+  HTTParty.get almaws/v1/electronic/e-collections/#{id}, headers: self.headers
+  end
+
+  "Find a set number"
+  def self.where(options = {})
+    HTTParty.get almaws/v1/electronic/e-collections, query: options, headers: self.headers
+  end
+
+end

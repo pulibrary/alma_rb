@@ -10,7 +10,7 @@ module Alma
         "#{bibs_base_path}/#{request.mms_id}/requests",
         query: {user_id: request.user_id},
         headers: headers,
-        body: request.body.to_json
+        body: request
         )
         Alma::Response.new(response)
     end

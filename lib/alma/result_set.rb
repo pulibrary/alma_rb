@@ -7,7 +7,7 @@ class Alma::ResultSet
   include Enumerable
   include Alma::Error
 
-  attr_reader :response, raw_response
+  attr_reader :response, :raw_response
 
   def_delegators :response, :[], :fetch
   def_delegators :each, :each_with_index, :size
@@ -20,6 +20,7 @@ class Alma::ResultSet
   def records
     @records ||= @response.fetch(key, [])
       .map { |item| single_record_class.new(item) }
+  end
 
   def each(&block)
     records.each(&:block)

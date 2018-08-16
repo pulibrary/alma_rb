@@ -1,23 +1,23 @@
 module Alma
   class  Bib
     extend Forwardable
-    
+
     def self.find(ids, args)
       get_bibs(ids, args)
     end
 
     def self.get_bibs(ids, args={})
       response = HTTParty.get(
-        self.bibs_base_path, 
-        query: {mms_id: ids_from_array(ids)}, 
+        self.bibs_base_path,
+        query: {mms_id: ids_from_array(ids)},
         headers: headers
         )
 
       if response.code == 200
-        Alma::BibSet.new(get_body_from(response))
+        Alma::BibSet.new(response)
       else
         raise StandardError, get_body_from(response)
-      end  
+      end
     end
 
 
@@ -61,17 +61,17 @@ module Alma
         "Accept": "application/json",
         "Content-Type": "application/json" }
       end
-  
-  
+
+
       def headers
         self.class.headers
       end
-  
-  
+
+
       def self.apikey
         Alma.configuration.apikey
       end
-      
+
       def self.region
         Alma.configuration.region
       end

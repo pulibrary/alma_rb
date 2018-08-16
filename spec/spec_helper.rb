@@ -3,23 +3,32 @@ require "alma"
 require 'pry'
 require 'webmock/rspec'
 require 'simplecov'
+require 'ostruct'
 SimpleCov.start
 
 SPEC_ROOT = File.dirname __FILE__
 
+def load_user(args=nil)
+  args ||= {body: {'primary_id' => 12}}
+  fake_response = OpenStruct.new(args)
+  Alma::User.new(fake_response)
+end
+
 RSpec.configure do |config|
   config.before(:each) do
+
+    Alma.configure
+
+    #fees / fines
+    stub_request(:get, /.*\.exlibrisgroup\.com\/almaws\/v1\/users\/12\/fees\/.*/).
+        to_return(:status => 200,
+                  :body => File.open(SPEC_ROOT + '/fixtures/fines.json').read)
 
 
     # User details
     stub_request(:get, /.*\.exlibrisgroup\.com\/almaws\/v1\/users\/.*/).
         to_return(:status => 200,
                   :body => File.open(SPEC_ROOT + '/fixtures/single_user.json').read)
-
-    #fees / fines
-    stub_request(:get, /.*\.exlibrisgroup\.com\/almaws\/v1\/users\/.*\/fees\/.*/).
-        to_return(:status => 200,
-                  :body => File.open(SPEC_ROOT + '/fixtures/fines.json'))
 
     # user requests
     stub_request(:get, /.*\.exlibrisgroup\.com\/almaws\/v1\/users\/.*\/requests/).

@@ -1,8 +1,7 @@
 require "spec_helper"
 
 describe Alma::FineSet do
-  let(:response_hash) { JSON.load(open(File.join(SPEC_ROOT,'fixtures','fines.json'))) }
-  let(:fines){described_class.new response_hash}
+  let(:fines) { load_user.fines }
 
   it 'returns the expected sum' do
     expect(fines.sum).to eql 415
